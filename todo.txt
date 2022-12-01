@@ -1,0 +1,9 @@
+1. adding firebase to android
+2. to ios
+3. to web
+4. firebase.initializeapp() -> run for android and ios only
+firebase.inititalizeapp(option: )
+
+in cloud firestore 
+edit rules to 
+allow read, write: if request.auth!=null;//we are only allowing read and write functionality to the user who have already sign in using the authentication provider of firebase
