@@ -1,0 +1,45 @@
+{
+  "appTitle": "Groupie",
+  "loginSlogan": "Login now to see what they are talking!",
+  "Email": "Email",
+  "EmailValidation": "Please enter a valid email",
+  "Password": "Password",
+  "PasswordValidation": "Password must be at least 6 characters",
+  "SignIn": "Sign In",
+  "DontHaveAccount": "Don't have an account? ",
+  "RegisterHere": "Register here",
+
+  "registerSlogan": "Create your account now to chat and explore",
+  "fullName": "Full Name",
+  "nameValidation": "Name cannot be empty",
+  "register": "Register",
+  "haveAccount": "Already have an account? ",
+  "loginNow": "Login now",
+
+  "groups": "Groups",
+  "profile": "Profile",
+  "logout": "Logout",
+  "reallyLogout": "Are you sure to Logout?",
+  "chooseLanguage": "Choose a language",
+  "langChanged": "Language Changed Successfully!",
+  "language": "Language",
+  "createAGroup": "Create a group",
+  "cancle": "CANCLE",
+  "groupCreated": "Group Created Successfully.",
+  "create": "CREATE",
+  "createGroupDesc": "You have not joined any group, tap on the add icon to create a group or also search from top search button",
+
+  "search": "Search",
+  "searchGroups": "Search Groups...",
+  "groupJoined": "Successfully joined the group",
+  "groupLeft": "Left the group ",
+  "joined": "Joined",
+  "joinNow": "Join Now",
+  "displayAdmin": "Admin:",
+
+  "groupInfo": "Group Info",
+  "exit": "Exit",
+  "exitText": "Are you sure to Exit the group?",
+
+  "groupTileSubTitle": "Join the conversation as "
+}
