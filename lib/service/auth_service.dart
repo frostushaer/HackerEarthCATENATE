@@ -1,6 +1,7 @@
 import 'package:chatapp_test1/helper/helper_function.dart';
 import 'package:chatapp_test1/service/database_service.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 
 class AuthService {
   final FirebaseAuth firebaseAuth = FirebaseAuth.instance;

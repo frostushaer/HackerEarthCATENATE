@@ -184,23 +184,23 @@ class _RegisterPageState extends State<RegisterPage> {
                         const SizedBox(
                           height: 15,
                         ),
-                        Text.rich(TextSpan(
-                          text: "Register as Organization?  ",
-                          style: const TextStyle(
-                              color: Colors.black, fontSize: 14),
-                          children: <TextSpan>[
-                            TextSpan(
-                                text: "Organization Register",
-                                style: const TextStyle(
-                                    color: Colors.black,
-                                    decoration: TextDecoration.underline),
-                                recognizer: TapGestureRecognizer()
-                                  ..onTap = () {
-                                    nextScreenReplace(
-                                        context, const OrgRegisterPage());
-                                  }),
-                          ],
-                        )),
+                        // Text.rich(TextSpan(
+                        //   text: "Register as Organization?  ",
+                        //   style: const TextStyle(
+                        //       color: Colors.black, fontSize: 14),
+                        //   children: <TextSpan>[
+                        //     TextSpan(
+                        //         text: "Organization Register",
+                        //         style: const TextStyle(
+                        //             color: Colors.black,
+                        //             decoration: TextDecoration.underline),
+                        //         recognizer: TapGestureRecognizer()
+                        //           ..onTap = () {
+                        //             nextScreenReplace(
+                        //                 context, const OrgRegisterPage());
+                        //           }),
+                        //   ],
+                        // )),
                         const SizedBox(
                           height: 10,
                         ),
@@ -241,6 +241,7 @@ class _RegisterPageState extends State<RegisterPage> {
           await HelperFunctions.saveUserLoggedInStatus(true);
           await HelperFunctions.saveUserEmailSF(email);
           await HelperFunctions.saveUserNameSF(fullName);
+          // await HelperFunctions.saveUserPushKey();
           nextScreenReplace(context, const HomePage());
         } else {
           showSnackBar(

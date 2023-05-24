@@ -1,8 +1,18 @@
+import 'dart:convert';
+import 'dart:io';
+import 'dart:math';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:http/http.dart';
+
+import '../helper/helper_function.dart';
 
 class DatabaseService {
   final String? oid, uid, cid, sid;
   DatabaseService({this.oid, this.uid, this.cid, this.sid});
+  static String pkey = '';
 
   //reference for our collections
   final CollectionReference orgCollection =
@@ -20,21 +30,68 @@ class DatabaseService {
   final CollectionReference staffCollection =
       FirebaseFirestore.instance.collection("staffs");
 
+  // for accessing firebase messaging (push notification)
+  static FirebaseMessaging fMessaging = FirebaseMessaging.instance;
+
+  // for getting firebase token
+  Future<void> getFirebaseMessagingToken() async {
+    await fMessaging.requestPermission();
+    await fMessaging.getToken().then((t) async {
+      if (t != null) {
+        // update
+        userCollection.doc(uid).update({
+          "pushToken": t,
+        });
+        // saving in shared prefrance for global access
+        await HelperFunctions.saveUserPushKey(t);
+        pkey = t;
+        print('push token: $pkey');
+      }
+    });
+  }
+
+  // for sending push notification
+  Future<void> sendPushNotification(
+      String pkey, String fullName, String msg) async {
+    try {
+      final body = {
+        "to": pkey,
+        "notification": {"title": fullName, "body": msg}
+      };
+      var res = await post(Uri.parse('https://fcm.googleapis.com/fcm/send'),
+          headers: {
+            HttpHeaders.contentTypeHeader: 'application/json',
+            HttpHeaders.authorizationHeader:
+                'key=AAAA_XFKHLg:APA91bE3Fkc6qHy1Yb0uKIQGoxvUbVH0oVWdUXhrs5ChyLE3hfbNtJbbjOsWWejWYmrojUbTHeplBT8ROQmiDUYf2JvamVBwy8AtxuAkKDJlAy116ORdIeOt79DECdjqfQ4O4NhjXLH-'
+          },
+          body: jsonEncode(body));
+
+      // print('Response status: ${res.statusCode}');
+      // print('Response body: ${res.body}');
+    } catch (e) {
+      // print('\nsendPushNotificationError: $e');
+    }
+  }
+
   //saving the userdata
   Future savingUserData(String fullName, String email) async {
-    return await userCollection.doc(uid).set({
+    await userCollection.doc(uid).set({
+      // return await userCollection.doc(uid).set({
       "fullName": fullName,
       "email": email,
       "groups": [],
       "profilePic": "",
       "uid": uid,
+      "pushToken": "",
     });
+    await getFirebaseMessagingToken();
   }
 
   //getting user data
   Future gettingUserData(String email) async {
     QuerySnapshot snapshot =
         await userCollection.where("email", isEqualTo: email).get();
+    await getFirebaseMessagingToken();
     return snapshot;
   }
 
@@ -219,6 +276,7 @@ class DatabaseService {
       "recentMessage": chatMessageData['message'],
       "recentMessageSender": chatMessageData['sender'],
       "recentMessageTime": chatMessageData['time'].toString(),
-    });
+    }).then((value) => sendPushNotification(
+        pkey, chatMessageData['sender'], chatMessageData['message']));
   }
 }

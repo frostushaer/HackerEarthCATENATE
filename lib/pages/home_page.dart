@@ -26,6 +26,7 @@ class _HomePageState extends State<HomePage> {
   Stream? groups;
   bool _isLoading = false;
   String groupName = "";
+  String pushToken = "";
 
   @override
   void initState() {
@@ -56,6 +57,11 @@ class _HomePageState extends State<HomePage> {
     await HelperFunctions.getUserNameFromSF().then((val) {
       setState(() {
         userName = val!;
+      });
+    });
+    await HelperFunctions.getUserPushKey().then((val) {
+      setState(() {
+        pushToken = val!;
       });
     });
     //getting the list of snapshot in our stream
